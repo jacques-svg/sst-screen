@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compteur de jours sans blessure</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      height: calc(100vh - 40px); /* Footer height = 40px */
+      display: flex;
+    }
+
+    .left {
+      flex: 1;
+      background-image: url('PIO_Bridge.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .right {
+      width: 35%;
+      background-color: #0f2c4f;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+.right img {
+  max-width: 300px; /* Augmenté */
+  height: auto;
+  margin-bottom: 20px;
+}
+
+
+    .right h1 {
+      font-size: 48px;
+      margin: 10px 0;
+    }
+
+    .right h2 {
+      font-size: 22px;
+      margin: 6px 0;
+    }
+
+    .right h3 {
+      font-size: 18px;
+      margin: 4px 0;
+      font-weight: normal;
+    }
+
+    .right p {
+      font-size: 16px;
+      margin: 4px 0;
+    }
+
+    .footer {
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #0f2c4f;
+      color: white;
+      padding: 0 20px;
+      font-size: 14px;
+    }
+
+    .time {
+      font-weight: bold;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .ticker-wrapper {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      margin-left: 20px;
+    }
+
+    .ticker {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left"></div>
+    <div class="right">
+      <img src="./heritage-logo-removebg-preview.png" alt="Heritage Logo" />
+      <h1 class="title">Santé et Sécurité</h1>
+      <h2>Health and Safety</h2>
+      <h1 id="dayCounter">0</h1>
+      <h1>Jour sans blessure</h1>
+      <h3>(enregistrable)</h3>
+      <h3>Day without injuries<br>(recordable)</h3>
+      <h2 id="date-fr"></h2>
+      <p><em id="date-en"></em></p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="time" id="clock"></div>
+    <div class="ticker-wrapper">
+      <div class="ticker">Bienvenue dans l'espace sécurité - Aucun incident enregistré récemment. Restez vigilant.</div>
+    </div>
+  </div>
+
+  <script>
+    const lastAccidentDate = new Date("2025-06-04");
+
+    function calculateDaysWithoutInjury() {
+      const today = new Date();
+      const diffTime = today - lastAccidentDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      document.getElementById("dayCounter").textContent = diffDays;
+    }
+
+    function updateTime() {
+      const now = new Date();
+      const time = now.toTimeString().split(' ')[0]; // HH:MM:SS
+      document.getElementById("clock").textContent = time;
+    }
+
+    function formatDate(locale) {
+      const today = new Date();
+      return today.toLocaleDateString(locale, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+    calculateDaysWithoutInjury();
+    document.getElementById("date-fr").innerHTML = "En date du<br>" + formatDate("fr-CA");
+    document.getElementById("date-en").innerHTML = "as of " + formatDate("en-CA");
+  </script>
+</body>
+</html>
